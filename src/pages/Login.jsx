@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import logo from '../trivia.png';
+import { getTokenApi } from '../helpers';
 
-export default class Login extends Component {
+class Login extends Component {
   state = {
     name: '',
     email: '',
@@ -22,6 +23,17 @@ export default class Login extends Component {
         bttnDisabled: !validaty,
       });
     });
+  };
+
+  handleClick = async ({ target }) => {
+    const { history } = this.props;
+    if (target.name === 'settings') {
+      history.push('settings');
+    } else {
+      const token = await getTokenApi();
+      localStorage.setItem('token', token.token);
+      history.push('/game');
+    }
   };
 
   render() {
@@ -52,8 +64,26 @@ export default class Login extends Component {
             onChange={ this.handleChange }
           />
         </label>
-        <button disabled={ bttnDisabled } data-testid="btn-play">Play</button>
+        <button
+          disabled={ bttnDisabled }
+          data-testid="btn-play"
+          onClick={ this.handleClick }
+        >
+          Play
+        </button>
+        <button
+          name="settings"
+          data-testid="btn-settings"
+          onClick={ this.handleClick }
+        >
+          Settings
+        </button>
       </div>
     );
   }
 }
+Login.propTypes = {
+  history: PropTypes.string.isRequired,
+};
+
+export default Login;
