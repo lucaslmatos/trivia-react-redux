@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import logo from '../trivia.png';
+import { getTokenApi } from '../helpers';
+import { addUser } from '../redux/actions';
 
-export default class Login extends Component {
+class Login extends Component {
   state = {
     name: '',
     email: '',
@@ -22,6 +26,20 @@ export default class Login extends Component {
         bttnDisabled: !validaty,
       });
     });
+  };
+
+  handleClick = async ({ target }) => {
+    const { history } = this.props;
+    if (target.name === 'settings') {
+      history.push('settings');
+    } else {
+      const { name, email } = this.state;
+      const { dispatch } = this.props;
+      dispatch(addUser(email, name));
+      const token = await getTokenApi();
+      localStorage.setItem('token', token.token);
+      history.push('/game');
+    }
   };
 
   render() {
@@ -52,8 +70,29 @@ export default class Login extends Component {
             onChange={ this.handleChange }
           />
         </label>
-        <button disabled={ bttnDisabled } data-testid="btn-play">Play</button>
+        <button
+          disabled={ bttnDisabled }
+          data-testid="btn-play"
+          onClick={ this.handleClick }
+        >
+          Play
+        </button>
+        <button
+          name="settings"
+          data-testid="btn-settings"
+          onClick={ this.handleClick }
+        >
+          Settings
+        </button>
       </div>
     );
   }
 }
+Login.propTypes = {
+  history: PropTypes.string.isRequired,
+  dispatch: PropTypes.string.isRequired,
+};
+
+export default connect()(Login);
+
+// Codigo criado por João Ricardo,Lucas Matos, Mauricio Fernandes

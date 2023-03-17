@@ -2,7 +2,7 @@ import { ADD_USER } from '../actions';
 
 const INITIAL_STATE = {
   email: '',
-  senha: '',
+  name: '',
 };
 const user = (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -10,7 +10,7 @@ const user = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       email: action.email,
-      senha: action.senha,
+      name: action.name,
     };
   default:
     return state;
