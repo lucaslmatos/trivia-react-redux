@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from '../trivia.png';
 import { getTokenApi } from '../helpers';
+import PropTypes from 'prop-types';
 
 class Login extends Component {
   state = {
