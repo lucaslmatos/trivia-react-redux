@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import logo from '../trivia.png';
 import { getTokenApi } from '../helpers';
-import PropTypes from 'prop-types';
+import { addUser } from '../redux/actions';
 
 class Login extends Component {
   state = {
@@ -31,6 +33,9 @@ class Login extends Component {
     if (target.name === 'settings') {
       history.push('settings');
     } else {
+      const { name, email } = this.state;
+      const { dispatch } = this.props;
+      dispatch(addUser(email, name));
       const token = await getTokenApi();
       localStorage.setItem('token', token.token);
       history.push('/game');
@@ -85,6 +90,7 @@ class Login extends Component {
 }
 Login.propTypes = {
   history: PropTypes.string.isRequired,
+  dispatch: PropTypes.string.isRequired,
 };
 
-export default Login;
+export default connect()(Login);
