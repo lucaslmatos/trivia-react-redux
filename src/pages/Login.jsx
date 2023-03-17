@@ -94,3 +94,5 @@ Login.propTypes = {
 };
 
 export default connect()(Login);
+
+// Codigo criado por João Ricardo,Lucas Matos, Mauricio Fernandes
