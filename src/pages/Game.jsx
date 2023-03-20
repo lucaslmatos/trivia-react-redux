@@ -6,6 +6,8 @@ import { getQuestions, shuffleArray } from '../helpers';
 import { buttonDisable } from '../redux/actions';
 
 const tres = 3;
+let countDown;
+
 class Game extends Component {
   state = {
     questions: [],
@@ -25,6 +27,7 @@ class Game extends Component {
       index: index + 1,
     });
     dispatch(buttonDisable(false));
+    clearInterval(countDown);
     const duration = 30;
     this.startTimer(duration);
   };
@@ -38,7 +41,7 @@ class Game extends Component {
     const parse = 10;
     const sec = 1000;
     const display = document.getElementById('timer');
-    const countDown = setInterval(() => {
+    countDown = setInterval(() => {
       minutes = parseInt(timer / min, parse);
       seconds = parseInt(timer % min, parse);
       minutes = minutes < parse ? `0${minutes}` : minutes;
