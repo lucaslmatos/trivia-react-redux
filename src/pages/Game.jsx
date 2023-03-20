@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import Header from '../components/Header';
-
 import Question from '../components/Question';
 import { getQuestions, shuffleArray } from '../helpers';
+import { buttonDisable } from '../redux/actions';
 
 const tres = 3;
 class Game extends Component {
@@ -15,13 +14,42 @@ class Game extends Component {
 
   componentDidMount() {
     this.getData();
+    const duration = 30;
+    this.startTimer(duration);
   }
 
   handleClick = () => {
     const { index } = this.state;
+    const { dispatch } = this.props;
     this.setState({
       index: index + 1,
     });
+    dispatch(buttonDisable(false));
+    const duration = 30;
+    this.startTimer(duration);
+  };
+
+  startTimer = (duration) => {
+    const { dispatch } = this.props;
+    let timer = duration;
+    let minutes;
+    let seconds;
+    const min = 60;
+    const parse = 10;
+    const sec = 1000;
+    const display = document.getElementById('timer');
+    const countDown = setInterval(() => {
+      minutes = parseInt(timer / min, parse);
+      seconds = parseInt(timer % min, parse);
+      minutes = minutes < parse ? `0${minutes}` : minutes;
+      seconds = seconds < parse ? `0${seconds}` : seconds;
+      display.textContent = `${minutes}:${seconds}`;
+      timer -= 1;
+      if (timer < 0) {
+        dispatch(buttonDisable(true));
+        clearInterval(countDown);
+      }
+    }, sec);
   };
 
   getData = async () => {
@@ -53,14 +81,13 @@ class Game extends Component {
         <Header />
         {a}
         <button onClick={ this.handleClick }>Next</button>
+        <div id="timer"> </div>
       </div>
     );
   }
 }
 
-Game.propTypes = {
-  history: PropTypes.string.isRequired,
-};
+Game.propTypes = {}.isRequired;
 
 export default connect()(Game);
 

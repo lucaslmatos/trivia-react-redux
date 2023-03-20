@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { shuffleArray } from '../helpers';
 
 class Question extends Component {
@@ -16,20 +16,23 @@ class Question extends Component {
     if (question !== prevProps.question) {
       this.getAnswers();
     }
+    const buttons = document.getElementsByTagName('button');
+    for (let i = 0; i < buttons.length; i += 1) {
+      buttons[i].className = '';
+    }
   }
 
   handleClick = () => {
-    const wrongs = document.querySelectorAll('.wrong');
+    const wrongs = document.getElementsByName('wrong');
     wrongs.forEach((e) => {
       e.className = 'incorrect';
     });
-    const correct = document.querySelector('.certa');
-    correct.className = 'correct';
+    const correct = document.getElementsByName('certa');
+    correct[0].className = 'correct';
   };
 
   getAnswers = () => {
     const { question } = this.props;
-    console.log(question);
     let arr = [];
     arr.push(question.correct_answer);
     arr = [...arr, ...question.incorrect_answers];
@@ -40,7 +43,7 @@ class Question extends Component {
   };
 
   render() {
-    const { question } = this.props;
+    const { question, disable } = this.props;
     const { answers } = this.state;
     return (
       <div>
@@ -51,7 +54,8 @@ class Question extends Component {
             <button
               onClick={ this.handleClick }
               key={ index }
-              className={
+              disabled={ disable }
+              name={
                 e === question.correct_answer ? 'certa'
                   : 'wrong'
               }
@@ -69,7 +73,11 @@ class Question extends Component {
     );
   }
 }
-Question.propTypes = {
-  question: PropTypes.string.isRequired,
-};
-export default Question;
+
+const mapStateToProps = (state) => ({
+  disable: state.game.disable,
+});
+
+Question.propTypes = {}.isRequired;
+
+export default connect(mapStateToProps)(Question);
