@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Header from '../components/Header';
+
 import Question from '../components/Question';
 import { getQuestions, shuffleArray } from '../helpers';
 
@@ -55,6 +57,11 @@ class Game extends Component {
     );
   }
 }
+
+Game.propTypes = {
+  history: PropTypes.string.isRequired,
+};
+
 export default connect()(Game);
 
 // Codigo criado por João Ricardo,Lucas Matos, Mauricio Fernandes
