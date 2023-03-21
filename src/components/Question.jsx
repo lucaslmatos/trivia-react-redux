@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { shuffleArray } from '../helpers';
+import { buttonDisable, handlePoints } from '../redux/actions';
 
 class Question extends Component {
   state = {
@@ -22,13 +23,31 @@ class Question extends Component {
     }
   }
 
-  handleClick = () => {
+  handleClick = ({ target }) => {
+    const { dispatch } = this.props;
+    dispatch(buttonDisable(true));
+    const tres = 3;
     const wrongs = document.getElementsByName('wrong');
     wrongs.forEach((e) => {
-      e.className = 'incorrect';
+      e.style.border = '3px solid red';
     });
     const correct = document.getElementsByName('certa');
-    correct[0].className = 'correct';
+    correct[0].style.border = '3px solid rgb(6, 240, 15)';
+    const timeSecond = document.getElementById('timer').innerHTML;
+    const timeNumber = timeSecond.slice(tres);
+    const { question } = this.props;
+    if (target.id === 'certa') {
+      const dez = 10;
+      let result = 0;
+      if (question.dificulty === 'easy') {
+        result = dez + timeNumber;
+      } if (question.dificulty === 'medium') {
+        result = dez + (timeNumber * 2);
+      } else {
+        result = dez + (timeNumber * tres);
+      }
+      dispatch(handlePoints(result));
+    }
   };
 
   getAnswers = () => {
@@ -54,6 +73,10 @@ class Question extends Component {
             <button
               onClick={ this.handleClick }
               key={ index }
+              id={
+                e === question.correct_answer ? 'certa'
+                  : 'wrong'
+              }
               disabled={ disable }
               name={
                 e === question.correct_answer ? 'certa'

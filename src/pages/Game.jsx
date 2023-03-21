@@ -22,14 +22,24 @@ class Game extends Component {
 
   handleClick = () => {
     const { index } = this.state;
-    const { dispatch } = this.props;
+    const { dispatch, history } = this.props;
     this.setState({
       index: index + 1,
     });
+    const quatro = 4;
+    if (index >= quatro) {
+      history.push('/feedback');
+    }
     dispatch(buttonDisable(false));
     clearInterval(countDown);
     const duration = 30;
     this.startTimer(duration);
+    const wrongs = document.getElementsByName('wrong');
+    wrongs.forEach((e) => {
+      e.style.border = '';
+    });
+    const correct = document.getElementsByName('certa');
+    correct[0].style.border = '';
   };
 
   startTimer = (duration) => {
@@ -49,6 +59,12 @@ class Game extends Component {
       display.textContent = `${minutes}:${seconds}`;
       timer -= 1;
       if (timer < 0) {
+        const wrongs = document.getElementsByName('wrong');
+        wrongs.forEach((e) => {
+          e.style.border = '3px solid red';
+        });
+        const correct = document.getElementsByName('certa');
+        correct[0].style.border = '3px solid rgb(6, 240, 15)';
         dispatch(buttonDisable(true));
         clearInterval(countDown);
       }
@@ -75,6 +91,7 @@ class Game extends Component {
 
   render() {
     const { questions, index } = this.state;
+    const { disable } = this.props;
     let a = '';
     if (questions.length > 0) {
       a = <Question question={ questions[index] } />;
@@ -83,15 +100,20 @@ class Game extends Component {
       <div>
         <Header />
         {a}
-        <button onClick={ this.handleClick }>Next</button>
+        {disable
+          && <button data-testid="btn-next" onClick={ this.handleClick }>Next</button>}
         <div id="timer"> </div>
       </div>
     );
   }
 }
 
+const mapStateToProps = (state) => ({
+  disable: state.game.disable,
+});
+
 Game.propTypes = {}.isRequired;
 
-export default connect()(Game);
+export default connect(mapStateToProps)(Game);
 
 // Codigo criado por João Ricardo,Lucas Matos, Mauricio Fernandes
