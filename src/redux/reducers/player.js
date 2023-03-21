@@ -1,4 +1,4 @@
-import { ADD_PLAYER, HANDLE_POINT, CORRECT_ANSWER } from '../actions';
+import { ADD_PLAYER, HANDLE_POINT, CORRECT_ANSWER, RESET_SCORE } from '../actions';
 
 const INITIAL_STATE = {
   email: '',
@@ -23,6 +23,12 @@ const player = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       assertions: action.assertions + state.assertions,
+    };
+  case RESET_SCORE:
+    return {
+      ...state,
+      assertions: action.assertions,
+      score: action.score,
     };
   default:
     return state;
