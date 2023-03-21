@@ -21,5 +21,5 @@ export const handlePoints = (point) => ({
 
 export const correctAnswer = (correct) => ({
   type: CORRECT_ANSWER,
-  corrects: correct,
+  assertions: correct,
 });

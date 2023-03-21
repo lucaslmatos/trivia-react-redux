@@ -4,7 +4,7 @@ const INITIAL_STATE = {
   email: '',
   name: '',
   score: 0,
-  corrects: 0,
+  assertions: 0,
 };
 const player = (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -22,7 +22,7 @@ const player = (state = INITIAL_STATE, action) => {
   case CORRECT_ANSWER:
     return {
       ...state,
-      corrects: action.corrects + state.corrects,
+      assertions: action.assertions + state.assertions,
     };
   default:
     return state;

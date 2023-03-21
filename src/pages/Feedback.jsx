@@ -6,24 +6,28 @@ const tres = 3;
 
 class Feedback extends Component {
   render() {
-    const { corrects } = this.props;
-    let feed = 'Could be better...';
-    feed = +corrects >= tres ? 'Well Done!' : 'Could be better...';
-    console.log(corrects);
+    const { assertions, score } = this.props;
     return (
       <>
         <Header />
         <h2
           data-testid="feedback-text"
         >
-          {feed}
+          {assertions >= tres ? 'Well Done!' : 'Could be better...'}
         </h2>
+        <h2 data-testid="feedback-total-score">
+          {+score}
+        </h2>
+        <h2 data-testid="feedback-total-question">{+assertions}</h2>
       </>
     );
   }
 }
+
 const mapStateToProps = (state) => ({
-  corrects: state.player.corrects,
+  assertions: state.player.assertions,
+  score: state.player.score,
+
 });
 
 Feedback.propTypes = {}.isRequired;
