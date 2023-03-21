@@ -6,6 +6,19 @@ import { resetScore } from '../redux/actions';
 const tres = 3;
 
 class Feedback extends Component {
+  componentDidMount() {
+    const { name, assertions, email, score } = this.props;
+    const user = {
+      name,
+      assertions,
+      email,
+      score,
+    };
+    const oldArr = JSON.parse(localStorage.getItem('ranking')) || [];
+    oldArr.push(user);
+    localStorage.setItem('ranking', JSON.stringify(oldArr));
+  }
+
   render() {
     const { assertions, score, dispatch, history } = this.props;
     return (
@@ -22,7 +35,7 @@ class Feedback extends Component {
         <h2 data-testid="feedback-total-question">{+assertions}</h2>
         <button
           onClick={ () => {
-            dispatch(resetScore);
+            dispatch(resetScore());
             history.push('/');
           } }
           data-testid="btn-play-again"
@@ -32,6 +45,7 @@ class Feedback extends Component {
         <button
           data-testid="btn-ranking"
           onClick={ () => {
+            dispatch(resetScore());
             history.push('/ranking');
           } }
         >
@@ -46,6 +60,9 @@ class Feedback extends Component {
 const mapStateToProps = (state) => ({
   assertions: state.player.assertions,
   score: state.player.score,
+  email: state.player.email,
+  name: state.player.name,
+
 });
 
 Feedback.propTypes = {}.isRequired;
