@@ -1,9 +1,10 @@
-import { ADD_PLAYER, HANDLE_POINT } from '../actions';
+import { ADD_PLAYER, HANDLE_POINT, CORRECT_ANSWER } from '../actions';
 
 const INITIAL_STATE = {
   email: '',
   name: '',
   score: 0,
+  corrects: 0,
 };
 const player = (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -17,6 +18,11 @@ const player = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       score: action.score + state.score,
+    };
+  case CORRECT_ANSWER:
+    return {
+      ...state,
+      corrects: action.corrects + state.corrects,
     };
   default:
     return state;
