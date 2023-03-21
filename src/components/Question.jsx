@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { shuffleArray } from '../helpers';
-import { buttonDisable, handlePoints } from '../redux/actions';
+import { buttonDisable, correctAnswer, handlePoints } from '../redux/actions';
 
 class Question extends Component {
   state = {
@@ -47,6 +47,7 @@ class Question extends Component {
         result = dez + (timeNumber * tres);
       }
       dispatch(handlePoints(result));
+      dispatch(correctAnswer(1));
     }
   };
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import logo from '../trivia.png';
 import { getTokenApi } from '../helpers';
-import { addUser } from '../redux/actions';
+import { addUser, resetScore } from '../redux/actions';
 
 class Login extends Component {
   state = {
@@ -10,6 +10,11 @@ class Login extends Component {
     email: '',
     bttnDisabled: true,
   };
+
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(resetScore());
+  }
 
   validation = () => {
     const { name, email } = this.state;
