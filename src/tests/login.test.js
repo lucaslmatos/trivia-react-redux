@@ -1,7 +1,7 @@
 import { screen,waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event';
-import { renderWithRouterAndRedux } from './renderWithRouterAndRedux';
-import App from '../../App';
+import { renderWithRouterAndRedux } from './helpers/renderWithRouterAndRedux';
+import App from '../App';
 const email = 'lucaslopesm_22@hotmail.com';
 const playerName = 'Lucas';
 describe('Testes: Página de Login.', () => {
