@@ -24,7 +24,7 @@ const State02 = {
   }
 };
 
-describe('Testes: Componente Question.', () => {
+describe('Testes: Componente Question. ', () => {
   beforeEach(() => {
     jest.spyOn(global,'fetch').mockResolvedValue({json:jest.fn().mockResolvedValue(fixedQuestions)})
   }
