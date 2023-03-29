@@ -102,7 +102,7 @@ class Game extends Component {
         {a}
         {disable
           && <button data-testid="btn-next" onClick={ this.handleClick }>Next</button>}
-        <div id="timer"> </div>
+        <div id="timer" data-testid="timer"> </div>
       </div>
     );
   }

@@ -34,14 +34,15 @@ class Question extends Component {
     const correct = document.getElementsByName('certa');
     correct[0].style.border = '3px solid rgb(6, 240, 15)';
     const timeSecond = document.getElementById('timer').innerHTML;
-    const timeNumber = timeSecond.slice(tres);
+    const timeNumber = timeSecond;
     const { question } = this.props;
+    console.log(question.difficulty);
     if (target.id === 'certa') {
       const dez = 10;
       let result = 0;
-      if (question.dificulty === 'easy') {
-        result = dez + timeNumber;
-      } if (question.dificulty === 'medium') {
+      if (question.difficulty === 'easy') {
+        result = dez + +timeNumber;
+      } else if (question.difficulty === 'medium') {
         result = dez + (timeNumber * 2);
       } else {
         result = dez + (timeNumber * tres);
