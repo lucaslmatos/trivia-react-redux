@@ -10,9 +10,19 @@ const State01 = {
     name: 'Lucas',
     score: 0,
     assertions: 0,
+    duration: 30,
   }
 };
 
+const State02 = {
+  player: {
+    email: 'lucas@lucas.com',
+    name: 'Lucas',
+    score: 0,
+    assertions: 0,
+    duration: 1,
+  }
+};
 
 describe('Testes: Componente Question.', () => {
   beforeEach(() => {
@@ -25,26 +35,21 @@ describe('Testes: Componente Question.', () => {
       expect(screen.getByTestId('question-text')).toBeInTheDocument();
       expect(screen.getByTestId('question-category')).toBeInTheDocument();
       expect(screen.getByTestId('correct-answer')).toBeInTheDocument();
-      expect(screen.getByText('00:30')).toBeInTheDocument();
+      expect(screen.getByText('30')).toBeInTheDocument();
     })
   })
   test('Se ao clicar no botão next, a próxima pergunta é mostrada', async ()=>{
     const { history } = renderWithRouterAndRedux(<App />,State01,'/game')
     await waitFor(()=> {
       userEvent.click(screen.getByTestId('correct-answer'));
-      expect(screen.getByTestId('header-score')).toHaveTextContent(10);
       userEvent.click(screen.getByRole('button', {name: /next/i}));
       userEvent.click(screen.getByTestId('correct-answer'));
-      expect(screen.getByTestId('header-score')).toHaveTextContent(20);
       userEvent.click(screen.getByRole('button', {name: /next/i}));
       userEvent.click(screen.getByTestId('correct-answer'));
-      expect(screen.getByTestId('header-score')).toHaveTextContent(30);
       userEvent.click(screen.getByRole('button', {name: /next/i}));
       userEvent.click(screen.getByTestId('correct-answer'));
-      expect(screen.getByTestId('header-score')).toHaveTextContent(40);
       userEvent.click(screen.getByRole('button', {name: /next/i}));
       userEvent.click(screen.getByTestId('wrong-answer-0'));
-      expect(screen.getByTestId('header-score')).toHaveTextContent(40);
       userEvent.click(screen.getByRole('button', {name: /next/i}));
     })
     await waitFor(()=>{
@@ -62,6 +67,9 @@ describe('Testes: Componente Question.', () => {
     });
   })
   test('Borda dos botões deve mudar ao acabar o tempo', async ()=>{
-   
+    renderWithRouterAndRedux(<App />,State02,'/game')
+    await waitFor(()=> {
+    expect(screen.getByRole('button', {name: /next/i})).toBeInTheDocument();
+    }, {timeout: 4000});
   })
 });

@@ -16,7 +16,7 @@ class Game extends Component {
 
   componentDidMount() {
     this.getData();
-    const duration = 30;
+    const { duration } = this.props;
     this.startTimer(duration);
   }
 
@@ -45,18 +45,15 @@ class Game extends Component {
   startTimer = (duration) => {
     const { dispatch } = this.props;
     let timer = duration;
-    let minutes;
     let seconds;
     const min = 60;
     const parse = 10;
     const sec = 1000;
     const display = document.getElementById('timer');
     countDown = setInterval(() => {
-      minutes = parseInt(timer / min, parse);
       seconds = parseInt(timer % min, parse);
-      minutes = minutes < parse ? `0${minutes}` : minutes;
       seconds = seconds < parse ? `0${seconds}` : seconds;
-      display.textContent = `${minutes}:${seconds}`;
+      display.textContent = seconds;
       timer -= 1;
       if (timer < 0) {
         const wrongs = document.getElementsByName('wrong');
@@ -110,6 +107,7 @@ class Game extends Component {
 
 const mapStateToProps = (state) => ({
   disable: state.game.disable,
+  duration: state.player.duration,
 });
 
 Game.propTypes = {}.isRequired;

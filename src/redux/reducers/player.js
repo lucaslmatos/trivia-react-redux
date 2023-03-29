@@ -5,6 +5,7 @@ const INITIAL_STATE = {
   name: '',
   score: 0,
   assertions: 0,
+  duration: 30,
 };
 const player = (state = INITIAL_STATE, action) => {
   switch (action.type) {
